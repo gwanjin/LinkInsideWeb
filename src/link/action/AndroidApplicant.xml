@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="androidApplicant" namespace="/" extends="struts-default, json-default">
+		
+ 		<action name="androidApplicantLogin" class="link.actions.AndroidApplicantAction" method="login">
+			<result type="json"></result>
+		</action>
+		
+		<action name="androidGetMatchingList" class="link.actions.AndroidApplicantAction" method="androidGetMatchingList">
+			<result type="json"></result>
+		</action>
+		
+		<action name="androidTest" class="link.actions.AndroidApplicantAction" method="test">
+			<result type="json"></result>
+		</action>
+		
+		<action name="androidApplyList" class="link.actions.AndroidApplicantAction" method="applyList">
+         	<result type="json"></result>
+         </action>
+		
+	</package>
+</struts>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <default-action-ref name="index" />
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+	
+        <action name="index">
+        	<result>/index.jsp</result>
+        </action>
+        
+        <action name="logout" class="link.actions.ApplicantAction" method="logout">
+			<result>index.jsp</result>
+		</action> 
+        
+        <action name="join">
+        	<result>/member/join.jsp</result>
+        </action>
+        
+    </package>
+
+    <include file="link/action/Applicant.xml"/>
+    <include file="link/action/Company.xml"/>
+
+    <!-- Add packages here -->
+
+</struts>
+<!-- <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <default-action-ref name="index" />
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+
+		<action name="insertApplicant" class="link.actions.ApplicantAction" method="insertApplicant">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="selectApplicant" class="link.actions.ApplicantAction" method="selectApplicant">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="updateApplicant" class="link.actions.ApplicantAction" method="updateApplicant">
+			<result>index.jsp</result>
+		</action>
+
+		<action name="index">
+			<result>index.jsp</result>
+		</action>
+		
+    </package>
+    <include file="link/action/Applicant.xml"/>
+
+    Add packages here
+
+</struts>
+ -->
+ 
+
+ 

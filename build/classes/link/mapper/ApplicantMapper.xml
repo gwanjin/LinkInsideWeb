@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.mapper.ApplicantMapper">
+	
+	<select id="selectApplicant" parameterType="Applicant" resultType="Applicant">
+		select * from
+		applicant
+		where
+		APPLICANTID = #{applicantid, jdbcType=VARCHAR}
+		and
+		APPLICANTPASSWORD = #{applicantpassword, jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertApplicant" parameterType="Applicant">
+		insert into APPLICANT
+			values(
+			#{applicantid},
+			#{applicantfirst},
+			#{applicantlast},
+			#{applicantphone},
+			#{applicantpassword},
+			#{applicantbday},
+			#{applicantgender},
+			#{applicantvalid}
+			)
+	</insert>
+	 
+	 <update id="updateApplicant" parameterType="Applicant">
+	 		update
+	 		applicant
+	 		set
+	 		applicantphone=#{applicantphone},
+	 		applicantpassword=#{applicantpassword}
+	 		where
+	 		applicantid=#{applicantid}
+	 </update>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="applicant" namespace="/applicant" extends="struts-default">
+	
+	<default-action-ref name="index" />
+		<action name="index">
+        	<result>/applicant/index.jsp</result>
+        </action>
+		
+		<action name="insertApplicant" class="link.actions.ApplicantAction" method="insertApplicant">
+			<result>success.jsp</result>
+		</action>
+		
+		<action name="selectApplicant" class="link.actions.ApplicantAction" method="selectApplicant">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="updateApplicant" class="link.actions.ApplicantAction" method="updateApplicant">
+			<result>index.jsp</result>
+		</action> 
+		
+	</package>
+
+</struts>

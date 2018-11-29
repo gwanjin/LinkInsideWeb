@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.mapper.CompanyMapper">
+	
+	<select id="selectCompany" parameterType="Company" resultType="Company">
+		select * from
+		Company
+		where
+		Compid = #{compid, jdbcType=VARCHAR}
+		and
+		compPASSWORD = #{comppassword, jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertCompany" parameterType="Company">
+		insert into company
+			values(
+			#{compid},
+			#{comppassword},
+			#{compname},
+			#{compaddress},
+			#{comparea},
+			#{compsize},
+			'A',
+			#{compphone},
+			#{compnum}
+			)
+	</insert>
+	 
+	 <update id="updateCompany" parameterType="Company" >
+	 		update
+	 		company
+	 		set
+	 		comppassword=#{comppassword},
+	 		compname=#{compname},
+	 		comparea=#{comparea},
+	 		compsize=#{compsize},
+	 		compphone=#{compphone},
+	 		compnum=#{compnum},
+	 		compaddress=#{compaddress}
+	 		where
+	 		compid=#{compid}
+	 </update>
+	 
+	 <select id="findCompany"  parameterType="Company" resultType="Company">
+	 	select * from company where compid=#{compid} and compnum=#{compnum}
+	 </select>
+	 
+	 	<select id="checkId" parameterType="Company" resultType="Company">
+			select * from company where compid = #{compid}
+		</select>
+		
+	<insert id="jobInsert" parameterType="Job">
+		insert into job values(
+			JOBID_SEQ.nextval,
+			#{compid},
+			#{jobtitle},
+			#{jobdesc},
+			#{jobto},
+			#{jobapplied},
+			#{jobstart},
+			#{jobend},
+			#{edumajor},
+			#{edulevel},
+			#{exparea},
+			#{explevel},
+			#{expduration}
+		)
+	</insert>
+		
+	<!-- value ~ last 사이의 문항 가져오기 -->
+	<select id="selectQuestions" parameterType="Map" resultType="Questions">
+		select * from questions where qid between ${value} and ${last}
+	</select>
+	
+	<insert id="insertCulture" parameterType="Culture">
+		Insert into culture (CULTUREID, COMPID, NEEDHARMONY,
+										NEEDCuriosity,
+										NEEDIdeal,
+										NEEDCloseness,
+										NEEDSelfExpression,
+										NEEDLiberty,
+										NEEDLove,
+										NEEDPracticality,
+										NEEDStability,
+										NEEDChallenge,
+										NEEDStructure)
+				values (CULTUREID_SEQ.nextval, #{compid}, #{needharmony}, #{needcuriosity}, 
+						#{needideal}, #{needcloseness}, #{needselfexpression}, #{needliberty}, #{needlove},
+						#{needpracticality}, #{needstability}, #{needchallenge}, #{needstructure})
+	</insert>
+	
+	<insert id="insertSkills" parameterType="Skills">
+		insert into skills 
+			(skillid, jobid, skillname, skilllevel)
+		VALUES(
+			SKILL_SEQ.nextval,
+			jobid_seq.currval, <!-- JOB에 insert후 skill을 삽입하기 때문에 JOB테이블에서 jobid가 제일 큰 값이 최근에 삽입한 값 -->
+			#{skillname},
+			#{skilllevel} )
+	</insert>
+	
+	<select id="searchCompany" parameterType="String" resultType="Company">
+		select * from company where compid=#{compid}
+	</select>
+	
+	<!-- 회사가 등록한 구인 정보 가져오기 -->
+	<select id="getJobList" parameterType="String" resultType="Job">
+		SELECT jobid, compid, jobtitle, jobdesc, jobto, jobapplied, TO_CHAR(jobstart,'YYYY-MM-DD') as jobstart, TO_CHAR(jobend, 'YYYY-MM-DD') as jobend FROM JOB WHERE compid = #{id}
+	</select>
+	
+	<select id="getSkillList" parameterType="String" resultType="Skills">
+		SELECT * FROM SKILLS where JOBID = #{jobid}
+	</select>
+		
+	<insert id="insertPersonality" parameterType="Personality">
+	 	insert into PERSONALITY (PERID, JOBID, Extraversion, Emotional, Openness, Conscientiousness, Agreeableness)
+	 		values (PER_SEQ.nextval, jobid_seq.currval, #{extraversion}, #{emotional}, #{openness}, #{conscientiousness}, #{agreeableness})
+	</insert>
+	
+	<select id="getCulutreCom" parameterType="Job" resultType="Culture">
+		select * from culture where compid = #{compid} 
+	</select>
+	
+	<select id="getLastJob" resultType="Job">
+		select * from job where jobid = (select max(TO_NUMBER(jobid, '99999')) from job)
+	</select>
+	
+	<select id="detail_jobinfor" resultType="Job">
+		select * from job where jobid=#{jobid} 
+	</select>
+	
+	<select id="getJobs" parameterType="String" resultType="Map">
+		SELECT * FROM JOB j, matching m WHERE j.jobid = m.jobid and compid = #{id}
+	</select>
+	
+	<select id="findAppliedApplicant" parameterType="String" resultType="Matching">
+		SELECT * FROM matching where jobid = #{id} AND (status = 'B' OR status LIKE 'A_') order by totalper desc
+	</select>
+	
+	<select id="findAppliedApplicantEdu" parameterType="String" resultType="Education">
+		SELECT applicantid, name, major, minor, diploma, TO_CHAR(startdate, 'YYYY-MM-DD') as startdate, TO_CHAR(enddate, 'YYYY-MM-DD') as enddate FROM Education where applicantid = #{id}
+	</select>
+	
+	<select id="findAppliedApplicantExp" parameterType="String" resultType="Experience">
+		SELECT applicantid, workname, workjobtitle, TO_CHAR(startdate, 'YYYY-MM-DD') as startdate,
+		       TO_CHAR(enddate, 'YYYY-MM-DD') as enddate FROM experience where applicantid = #{id}
+	</select>
+	
+	<select id="findAppliedApplicantSkills" parameterType="String" resultType="Skills">
+		SELECT skillid, applicantid, jobid, skillname, skilllevel, certname, 
+				TO_CHAR(certdate, 'YYYY-MM-DD') as certdate, certfrom FROM Skills where applicantid = #{id}
+	</select>
+	
+	<select id="findAppliedApplicantInfo" parameterType="String" resultType="Applicant">
+		SELECT applicantid, applicantfirst, applicantlast, applicantphone, applicantpassword, TO_CHAR(applicantbday, 'YYYY-MM-DD') as applicantbday, applicantgender, applicantvalid 
+							FROM applicant where applicantid = #{id}
+	</select>
+	
+	<update id="updateStatus" parameterType="Map">
+		update matching set
+			<if test="passornot=='pass'">
+				status = 'AP'
+			</if>
+			<if test="passornot=='fail'">
+				status = 'AF'
+			</if>
+		where jobid = #{jobid} and applicantid = #{applicantid}
+	</update>
+	
+	<insert id="insertSelfPromotion" parameterType="SelfPromotion">
+		insert into SELFPROMOTION 
+			(jobid, qnumber, question, MINTEXT, MAXTEXT)
+		VALUES(
+			#{jobid},
+			#{qnumber}, <!-- JOB에 insert후 skill을 삽입하기 때문에 JOB테이블에서 jobid가 제일 큰 값이 최근에 삽입한 값 -->
+			#{question},
+			#{mintext},
+			#{maxtext} )
+	</insert>
+	
+	<select id="getSelfPromotion" parameterType="Map" resultType="SelfPromotion">
+		select * from selfpromotion where applicantid = #{applicantid} and jobid = #{jobid}
+	</select>
+	
+	<select id="getApplicantbyId" parameterType="String" resultType="Applicant">
+		SELECT * FROM APPLICANT WHERE applicantid = #{id}
+	</select>
+</mapper>

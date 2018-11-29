@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+    <package name="default" namespace="/" extends="struts-default, json-default">
+	    <interceptors>
+	    	<interceptor name="loginInterceptor" class="interceptor.loginInterceptor"/>
+	    </interceptors>
+
+        <default-action-ref name="index" />
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+	
+        <action name="index">
+        	<result>/index.jsp</result>
+        </action>
+        
+        <action name="logout" class="link.actions.ApplicantAction" method="logout">
+			<result>index.jsp</result>
+		</action> 
+        
+        <action name="joinformApplicant">
+        	<result>/member/joinformApplicant.jsp</result>
+        </action>
+        
+        <action name="joinformComp">
+        	<result>/member/joinformCompany.jsp</result>
+        </action>
+        
+        <action name="findID_PW">
+        	<result>/member/findID_PW.jsp</result>
+        </action>
+        
+ 		<action name="bringIndex" class="link.actions.CommonAction" method="bringIndex">
+			<result type="json"></result>
+		</action>
+
+    </package>
+
+    <include file="link/action/Applicant.xml"/>
+    <include file="link/action/Company.xml"/>
+    <include file="link/action/Commmon.xml"/>
+    <include file="link/action/AndroidApplicant.xml"/>
+    <include file="link/action/AndroidCompany.xml"/>
+</struts>

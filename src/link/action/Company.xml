@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="company" namespace="/" extends="default">
+		<action name="companyView" class="link.actions.CompanyAction" method="companyView">
+			<result>/company/company_main.jsp</result>
+		</action>
+		
+		<action name="insertCompany" class="link.actions.CompanyAction" method="insertCompany">
+			<result type="redirect"> beforecompc</result>
+		</action>	
+		
+		<action name="beforecompc"> 
+			<result>/member/checkpagecompbeforec.jsp</result>
+		</action>
+		
+		<action name="companyIdCheck" class="link.actions.CompanyAction" method="idCheck">
+			<result type="json"></result>
+		</action>
+		
+		<action name="selectCompany" class="link.actions.CompanyAction" method="selectCompany">
+			<result>index.html</result>
+		</action>
+		
+		<action name="updateCompanyForm" class="link.actions.CompanyAction" method="updateCompanyForm">
+			<result name="success">/company/updateCompany.jsp</result>
+		</action>
+		<!-- 아이디 비밀번호 찾기 -->
+		<action name="findCompany" class="link.actions.CompanyAction" method="findCompany">
+			<result type="json"></result>
+		</action>
+		
+		 <action name="comfindID_PW" class="link.actions.CompanyAction" method="comfindID_PW">
+        	<result>/member/findID_PW.jsp</result>
+        </action>
+		
+		<action name="selectCompanyLoginID" class="link.actions.CompanyAction" method="selectCompanyLoginID">
+			<result type="json"></result>
+		</action>
+		
+		<!-- 11월 8일 오전 8시 40분 변경 -->
+		<action name="jobInsert" class="link.actions.CompanyAction" method="jobInsert">
+        	<result name="success">/company/self_intro.jsp</result>
+        	<result name="input">/company/company_main.jsp</result>
+        </action>
+        
+        
+        <action name="selfPromotionInsert" class="link.actions.CompanyAction" method="selfPromotionInsert">
+        	<result name="success">/company/company_main.jsp</result>
+        </action>
+		
+		<action name="ctestCompany" class="link.actions.CompanyAction" method="ctestCompany">
+			<result>/member/culturesurveyc.jsp</result>
+		</action>
+		
+		
+		<action name="applicantTestCompany">
+			<result>/company/surveyc.jsp</result>
+		</action>
+		
+		<action name="cultureCompanyResult" class="link.actions.CompanyAction" method="cultureResult">
+			<result type="redirect">companyView</result>
+		</action>
+
+		
+		<action name="testResultComp" class="link.actions.CompanyAction" method="testResultComp">
+			<result>/company/insert_job.jsp</result>
+		</action>
+		
+		
+		<action name="detail_applicant"  class="link.actions.CompanyAction" method="detail_applicant">
+			<result>/company/detail_applicant.jsp</result>
+		</action>
+		
+		<action name="detail_jobinfor" class="link.actions.CompanyAction" method="detail_jobinfor">
+			<result>/company/update_job.jsp</result>
+		</action>
+
+		<action name="requestComp" class="link.actions.CompanyAction" method="request">
+			<result type="json"></result>
+		</action>
+		
+		<action name="verifyComp" class="link.actions.CompanyAction" method="verify">
+        	<result type="json"></result>
+        </action>
+		
+		<action name="updateCompany" class="link.actions.CompanyAction" method="updateCompany">
+			<result>/company/company_main.jsp</result>
+		</action>
+		
+		
+		<action name="findAppliedApplicant" class="link.actions.CompanyAction" method="findAppliedApplicant">
+        	<result>/company/joblistView.jsp</result>
+        </action>
+		
+		<action name="findApplicantDetails" class="link.actions.CompanyAction" method="findApplicantDetails">
+			<result type="json"></result>
+		</action>
+		
+		<action name="updateStatus" class="link.actions.CompanyAction" method="updateStatus">
+			<result type="json"></result>
+		</action>
+		<!-- 지우지 마세요  -->
+		<action name="detail_jobinfo">
+			<result>/company/detail_jobinfo.jsp</result>
+		</action>
+	</package>
+
+</struts>

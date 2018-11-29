@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="applicant" namespace="/" extends="struts-default, json-default">
+	
+		<action name="insertApplicant" class="link.actions.ApplicantAction" method="insertApplicant">
+			<result type="redirect">beforeappp1</result>
+		</action>
+		
+		<action name="beforeappp1"> 
+			<result>/member/checkpageappbeforep1.jsp</result>
+		</action>
+		
+		<action name="selectApplicant" class="link.actions.ApplicantAction" method="selectApplicant">
+			<result>index.jsp</result>
+		</action>
+		
+		<action name="applicantIdCheck" class="link.actions.ApplicantAction" method="idCheck">
+			<result type="json"></result>
+		</action>
+	
+		<action name="selectApplicantLoginID" class="link.actions.ApplicantAction" method="selectApplicantLoginID">
+			<result type="json"></result>
+		</action>
+		
+		<action name="ptestApplicant" class="link.actions.ApplicantAction" method="ptestApplicant">
+			<result>/member/surveyp.jsp</result>
+		</action>
+		
+		<action name="ptestApplicant2" class="link.actions.ApplicantAction" method="ptestApplicant2">
+			<result>/member/surveyp2.jsp</result>
+		</action>
+		
+		<action name="testResult" class="link.actions.ApplicantAction" method="insertTest">
+			<result type="redirect">checkpageappp2</result>
+		</action>
+		
+		<action name="checkpageappp2">
+			<result>/member/checkpageappbeforep2.jsp</result>
+		</action>
+		
+		<action name="testResult2" class="link.actions.ApplicantAction" method="insertTest2">
+			<result type="redirect">checkpageappc</result>
+		</action>
+		
+		<action name="checkpageappc">
+			<result>/member/checkpageappbeforec.jsp</result>
+		</action>
+		
+		<action name="culturesurvey" class="link.actions.ApplicantAction" method="cultureSurvey">
+			<result>/member/culturesurveyp.jsp</result>
+		</action>
+		
+		<action name="culturePersonResult" class="link.actions.ApplicantAction" method="testCultureResult">
+			<result type="redirect">/member/skills.jsp</result>
+		</action>
+		
+		<action name="culturePersonResult2">
+			<result type="redirect">/member/skills.jsp</result>
+		</action>
+		
+		<action name="myProfile" class="link.actions.ApplicantAction" method="myProfile">
+			<result type="json"></result>
+		</action>
+		
+		
+<!-- 		
+		<action name="checkpageappe">
+			<result>/member/checkpageappbeforeedu.jsp</result>
+		</action>
+		
+		<action name="educationpage">
+			<result type="redirect">/member/education.jsp</result>
+		</action>
+		
+		<action name="insertEducation" class="link.actions.ApplicantAction" method="insertEducation">
+			<result name="success">/member/experience.jsp</result>
+		</action>
+		
+		<action name="insertExperience" class="link.actions.ApplicantAction" method="insertExperience">
+			<result>/member/skills.jsp</result>
+		</action>
+		
+-->
+		<action name="insertSkills" class="link.actions.ApplicantAction" method="insertSkills">
+			<result type="redirect">applicantView</result>
+		</action>
+		
+		<action name="applicantView" class="link.actions.ApplicantAction" method="applicantView">
+			<result>/applicant/applicant_main.jsp</result>
+		</action>
+		
+		<!-- 아이디&비밀번호 찾기 -->
+		<action name="findApplicant" class="link.actions.ApplicantAction" method="findApplicant">
+			<result type="json"></result>
+		</action>
+		
+		<!-- 개인정보 수정 -->
+		<action name="updateApplicant" class="link.actions.ApplicantAction" method="updateApplicant">
+			<result>/applicant/updateApplicant.jsp</result>
+		</action>
+		
+		<action name="applicantUpdateFrom" class="link.actions.ApplicantAction" method="applicantUpdateFrom">
+			<result>/applicant/updateApplicant.jsp</result>
+		</action>
+		
+		<!-- 퍼센티지 가져오기  -->
+		<action name="getMatching" class="link.actions.CompanyAction" method="getMatching">
+			<result type="json"></result>
+		</action>
+	
+		<action name="requestApplicant" class="link.actions.ApplicantAction" method="request">
+			<result type="json"></result>
+		</action>
+		
+		<action name="verifyApplicant" class="link.actions.ApplicantAction" method="verify">
+        	<result type="json"></result>
+        </action>
+        
+        <action name="personalityResult" class="link.actions.ApplicantAction" method="personalityResult">
+        	<result>/applicant/resultPersonality.jsp</result>
+        </action>
+        
+        <action name="insertApplicantMatching" class="link.actions.ApplicantAction" method="insertApplicantMatching">
+        	<result type="json"></result>
+        </action>
+        
+        <action name="viewCultureResult" class="link.actions.ApplicantAction" method="viewCultureResult">
+        	<result name="success">/applicant/resultCulture.jsp</result>
+        </action>
+        
+        <action name="matchingView" class="link.actions.ApplicantAction" method="matchingView">
+        	<result>/applicant/matchingView.jsp</result>
+        </action>
+        
+        <action name="applyJob" class="link.actions.ApplicantAction" method="applyJob">
+        	<result type="json"></result>
+        </action>
+        
+        <action name="checkSelfPromotion"  class="link.actions.ApplicantAction" method="checkSelfPromotion">
+        	<result type="json"></result>
+        </action>
+        
+        <action name="writeSelfPromotion" class="link.actions.ApplicantAction" method="writeSelfPromotion" >
+        	<result>/applicant/writeSelfPromotion.jsp</result>
+        </action>   
+        
+         <action name="insertSelf" class="link.actions.ApplicantAction" method="insertSelf">
+         	<result>/applicant/applyList.jsp</result>
+         </action>
+         
+         <action name="modalMainValue" class="link.actions.ApplicantAction" method="modalMainValue">
+         	<result type="json"></result>
+         </action>
+         
+         <action name="applyList" class="link.actions.ApplicantAction" method="applyList">
+         	<result>/applicant/applyList.jsp</result>
+         </action>
+        
+	</package>
+</struts>

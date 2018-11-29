@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.mapper.AndroidApplicantMapper">
+	<select id="getJoindTable" parameterType="Map" resultType="Map">
+	 	select c.compid compid, j.jobid jobid, m.applicantid applicantid, 100*CULPER CULPER, 100*SKILLPER SKILLPER, 100*PERPER PERPER,
+	 			TOTALPER*100 TOTALPER, STATUS, JOBTITLE, JOBDESC, JOBTO, JOBAPPLIED, EDUMAJOR, EDULEVEL, EXPAREA,
+	 			TO_CHAR(JOBSTART, 'YYYY-MM-DD') JOBSTART, TO_CHAR(JOBEND, 'YYYY-MM-DD') JOBEND,
+	 			COMPNAME, COMPADDRESS, COMPAREA, COMPSIZE, COMPVALID, COMPPHONE, COMPNUM
+	 	from (SELECT * FROM MATCHING WHERE applicantid=#{id} ORDER BY TOTALPER*100 DESC) m,company c, job j where c.compid = j.compid and  m.jobid = j.jobid
+	 			AND
+		 			<if test="type2 == null">
+		 				m.status = #{type}
+		 			</if>
+		 			<if test="type2 != null">
+		 				(m.status = #{type} OR m.status LIKE 'A_')
+		 			</if>
+	 </select>
+	 
+	 
+<!-- 	 <select id="getMatching" parameterType="Map" resultType="matching">
+	 	SELECT JOBID, CULPER SKILLPER, PERPER, TOTALPER where id="#{id}" and 
+			<if test="type2 == null">
+ 				m.status = #{type}
+ 			</if>
+ 			<if test="type2 != null">
+ 				(m.status = #{type} OR m.status LIKE 'A_')
+ 			</if>
+ 		ORDER BY TOTALPER DESC
+	 </select>
+	 
+	 <select id="getCompnay" parameterType="String" resultType="company">
+	 	SELECT COMPID, COMPNAME, COMPADDRESS, COMPAREA, COMPSIZE, COMVALID, COMPPHONE, COMPNUM from COMPANY
+	 	where COMPID=#{compid}
+	 </select>
+
+	<select id="getJob" parameterType="String" resultType="job">
+		SELECT JOBID, JOBTITLE, JOBDESC, JOBTO, JOBAPPLED, JOBSTART, JOBEND, EDUMAJOR, EDULEVEL, EXPAREA, EXPLEVEL, EXPDURATION
+		FROM JOB
+		WHERE JOBID=#{jobid}
+	</select> -->
+	 
+</mapper>

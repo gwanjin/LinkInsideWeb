@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.mapper.ApplicantMapper">
+	
+	<select id="checkID" parameterType="Applicant" resultType="Applicant">
+		select * from applicant where applicantid = #{applicantid}
+	</select>
+	
+	<select id="selectQuestions" parameterType="Map" resultType="Questions">
+		select * from questions where qid between ${value} and (${value} + ${last})
+	</select>
+	
+	<select id="loginApplicant" parameterType="Applicant" resultType="Applicant">
+		select * from applicant where applicantid=#{applicantid} and applicantpassword=#{applicantpassword}
+	</select>
+	
+	<select id="selectApplicant" parameterType="Applicant" resultType="Applicant">
+		select * from applicant where applicantid=#{applicantid} 
+		  <if test="applicantpassword != null">
+	 		 and applicantpassword=#{applicantpassword}
+ 		 </if>
+  
+	</select>
+	
+	<select id="getTagList" resultType="String">
+		select name from skilllist
+	</select>
+	
+	<insert id="insertApplicant" parameterType="Applicant">
+		insert into APPLICANT
+			values(
+			#{applicantid},
+			#{applicantfirst},
+			#{applicantlast},
+			#{applicantphone},
+			#{applicantpassword},
+			#{applicantbday},
+			#{applicantgender},
+			'A'
+		)
+	</insert>
+	 
+	
+	<insert id="insertEducation" parameterType="Education">
+		insert into EDUCATION
+		values(
+			#{applicantid},
+			#{name},
+			#{major},
+			#{minor},
+			#{diploma},
+			#{startdate},
+			#{enddate}
+		)
+	</insert>
+	
+	<insert id="insertExperience" parameterType="Experience">
+		insert into Experience
+			values(
+			#{applicantid},
+			#{workname},
+			#{workjobtitle},
+			#{startdate},
+			#{enddate}
+			)
+	</insert>
+	
+	<insert id="insertSkills" parameterType="Skills">
+		insert into Skills (skillid, applicantid, skillname, skilllevel, certname, certdate, certfrom)
+			values(
+			SKILL_SEQ.nextval,
+			#{applicantid},
+			<!--  #{jobid}, 일단 필요없다고 판단해 주석처리 -->
+			#{skillname},
+			#{skilllevel},
+			#{certname},
+			#{certdate},
+			#{certfrom}
+			)
+	</insert>
+	 
+	 <update id="updateApplicant" parameterType="Applicant">
+	 		update
+	 		applicant
+	 		set
+	 		applicantphone=#{applicantphone},
+	 		applicantpassword=#{applicantpassword}
+	 		where
+	 		applicantid=#{applicantid}
+	 </update>
+	 
+	 <!--아이디 비밀번호 찾기  -->
+	 <select id="findApplicant" parameterType="Applicant" resultType="Applicant">
+	 	select * from applicant where applicantid=#{applicantid} and applicantfirst=#{applicantfirst} and applicantlast =#{applicantlast}
+	 </select>
+	 
+	 <insert id="insertPersonality" parameterType="Personality">
+	 	insert into PERSONALITY (PERID, APPLICANTID, Extraversion, Emotional, Openness, Conscientiousness, Agreeableness)
+	 		values (PER_SEQ.nextval, #{applicantid}, #{extraversion}, #{emotional}, #{openness}, #{conscientiousness}, #{agreeableness})
+	 </insert>
+	 
+	 <insert id="insertPersonality2" parameterType="Personality">
+	 	update
+	 		PERSONALITY
+	 		set
+	 		Extraversion= (Extraversion + #{extraversion})/2,
+	 		Emotional= (Emotional + #{emotional})/2,
+	 		Openness= (Openness + #{openness})/2,
+	 		Conscientiousness= (Conscientiousness + #{conscientiousness})/2,
+	 		Agreeableness=(Agreeableness + #{agreeableness})/2
+	 		where
+	 		APPLICANTID = #{applicantid}
+	 </insert>
+	 
+	 <insert id="insertCulture" parameterType="Applicant">
+	 	Insert into culture (CULTUREID, APPLICANTID, NEEDHARMONY,
+										NEEDCuriosity,
+										NEEDIdeal,
+										NEEDCloseness,
+										NEEDSelfExpression,
+										NEEDLiberty,
+										NEEDLove,
+										NEEDPracticality,
+										NEEDStability,
+										NEEDChallenge,
+										NEEDStructure)
+				values (CULTUREID_SEQ.nextval, #{applicantid}, #{needharmony}, #{needcuriosity}, 
+						#{needideal}, #{needcloseness}, #{needselfexpression}, #{needliberty}, #{needlove},
+						#{needpracticality}, #{needstability}, #{needchallenge}, #{needstructure})
+	 </insert>
+	 
+	 <select id="selectCultureResult" parameterType="String" resultType="Culture">
+	 	SELECT * FROM CULTURE WHERE applicantid = #{id}
+	 </select>
+	 
+	 <select id="selectApplicantById" parameterType="String" resultType="Applicant">
+	 	SELECT * FROM Applicant WHERE applicantid = #{id}
+	 </select>
+	 
+	 <select id="selectPersonalityById" parameterType="String" resultType="Personality">
+	 	SELECT * FROM PERSONALITY WHERE applicantid = #{id}
+	 </select>
+	 
+	 <select id="searchApplicant" parameterType="String" resultType="Applicant">
+	 	SELECT applicantid, applicantfirst, applicantlast, applicantphone, applicantpassword, TO_CHAR(applicantbday, 'YYYY-MM-DD') as applicantbday, decode(applicantgender, 'M', '男性', 'F', '女性') as applicantgender  
+	 		FROM Applicant WHERE applicantid = #{applicantid}
+	 </select>
+	 
+	 <select id="getApplicantMatching" parameterType="String" resultType="Matching">
+	 	select * from matching where applicantid = #{id}
+	 </select>
+	 
+	 <select id="getEducation" parameterType="Applicant" resultType="Education">
+	 	SELECT applicantid, name, major, minor, diploma, TO_CHAR(startdate, 'YYYY-MM-DD') as startdate, TO_CHAR(enddate, 'YYYY-MM-DD') as enddate FROM Education where applicantid = #{applicantid}
+	 </select>
+	 <select id="getExperience" parameterType="Applicant" resultType="Experience">
+	 	SELECT applicantid, workname, workjobtitle, TO_CHAR(startdate, 'YYYY-MM-DD') as startdate,
+		       	TO_CHAR(enddate, 'YYYY-MM-DD') as enddate FROM experience where applicantid = #{applicantid}
+	 </select>
+	 <select id="getSkills" parameterType="Applicant" resultType="Skills">
+	 	SELECT skillid, applicantid, jobid, skillname, skilllevel, certname, 
+				TO_CHAR(certdate, 'YYYY-MM-DD') as certdate, certfrom FROM Skills where applicantid = #{applicantid}
+	 </select>
+	 <select id="getCulture" parameterType="Applicant" resultType="Culture">
+	 	SELECT * FROM Culture WHERE applicantid = #{applicantid}
+	 </select>
+	 <select id="getPersonality" parameterType="Applicant" resultType="Personality">
+	 	SELECT * FROM Personality WHERE applicantid = #{applicantid}
+	 </select>
+	 <select id="getCompany" resultType="Company">
+	 	SELECT * FROM Company
+	 </select>
+	 <select id="getCulutreCom" parameterType="Company" resultType="Culture">
+	 	SELECT * FROM culture WHERE compid = #{compid}
+	 </select>
+	 <select id="getJob" parameterType="Company" resultType="Job">
+	 	SELECT * FROM job WHERE compid = #{compid}
+	 </select>
+	 <select id="getPersonalityCom" parameterType="Job" resultType="Personality">
+	 	SELECT * FROM personality WHERE jobid = #{jobid}
+	 </select>
+	 <select id="getSkillsCom" parameterType="Job" resultType="Skills">
+	 	SELECT * FROM Skills WHERE jobid = #{jobid}
+	 </select>
+	 <insert id="insertMatch" parameterType="HashMap">
+	 	insert into matching
+		 	values(
+		 	#{applicantid},
+		 	#{jobid},
+		 	#{culper},
+		 	#{skillper},
+		 	#{perper},
+		 	#{totalper},
+		 	'A'
+	 	)
+	 </insert>
+	 
+	 <select id="getAllApplicant" resultType="Applicant">
+	 	select * from applicant
+	 </select>
+	 
+	 <select id="getJoindTable" parameterType="Map" resultType="Map">
+	 	select c.compid compid, j.jobid jobid, m.applicantid applicantid, 100*CULPER CULPER, 100*SKILLPER SKILLPER, 100*PERPER PERPER,
+	 			TOTALPER*100 TOTALPER, STATUS, JOBTITLE, JOBDESC, JOBTO, JOBAPPLIED, EDUMAJOR, EDULEVEL, EXPAREA,
+	 			TO_CHAR(JOBSTART, 'YYYY-MM-DD') JOBSTART, TO_CHAR(JOBEND, 'YYYY-MM-DD') JOBEND,
+	 			COMPNAME, COMPADDRESS, COMPAREA, COMPSIZE, COMPVALID, COMPPHONE, COMPNUM
+	 	from matching m,company c, job j where c.compid = j.compid and  m.jobid = j.jobid and m.applicantid=#{id}
+	 			AND
+		 			<if test="type2 == null">
+		 				m.status = #{type} 
+		 			</if>
+		 			<if test="type2 != null">
+		 				(m.status = #{type} OR m.status LIKE 'A_')
+		 			</if>
+	 </select>
+	 
+	 <select id="searchCompanyCulture" parameterType="String" resultType="Culture">
+	 	select c.* from culture c, JOB j where jobid = #{jobid} AND c.compid = j.compid
+	 </select>
+	 
+	 
+	 <update id="applyJob" parameterType="Map">
+	 	update matching SET STATUS = 'B' where jobid = #{jobid} AND applicantid = #{applicantid}
+	 </update>
+	 
+	 
+	 <select id="getSelfPromotion" parameterType="Map" resultType="SelfPromotion">
+	 	select * from selfpromotion where jobid = #{jobid}
+	 		<if test="applicantid != null">
+	 			AND applicantid = #{applicantid}
+	 		</if>
+	 </select>
+	 
+	 
+	 <update id="insertSelf">
+	 	update SELFPROMOTION SET applicantid = #{applicantid}, answer = #{answer} where jobid = #{jobid} AND qnumber = #{qnumber}
+	 </update>
+	 
+	 <select id="getOneCompany" parameterType="String" resultType="Company">
+	 	SELECT * FROM COMPANY where compid = #{compid}
+	 </select>
+	 
+	  <select id="getOneJob" parameterType="String" resultType="Job">
+	 	SELECT * FROM Job where jobid = #{jobid}
+	 </select>
+	 
+	 <select id="getCultureByCompid" parameterType="String" resultType="Culture">
+	 	select * from culture where compid = #{compid}
+	 </select>
+	 
+	 <!-- 지원시 지원자 인원 증가 -->
+	 <update id="increaseJobApplied" parameterType="String">
+	 	update JOB SET jobapplied = jobapplied+1 where jobid = #{jobid}
+	 </update>
+	 
+</mapper>

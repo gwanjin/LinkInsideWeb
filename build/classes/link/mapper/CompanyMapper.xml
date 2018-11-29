@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="link.mapper.CompanyMapper">
+	
+	<select id="selectCompany" parameterType="Company" resultType="Company">
+		select * from
+		Company
+		where
+		Company = #{Compid, jdbcType=VARCHAR}
+		and
+		compPASSWORD = #{Comppassword, jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertCompany" parameterType="Company">
+		insert into company
+			values(
+			#{compid},
+			#{comppassword},
+			#{compname},
+			#{compaddress},
+			#{comparea},
+			#{compsize},
+			#{compvalid},
+			#{compphone},
+			#{compnum}
+			)
+	</insert>
+	 
+	 <update id="updateCompany" parameterType="Company">
+	 		update
+	 		Company
+	 		set
+	 		Compphone=#{Companyphone},
+	 		Comppassword=#{Comppassword}
+	 		where
+	 		Compid=#{Compid}
+	 </update>
+</mapper>
